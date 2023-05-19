@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard - SB Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <style>
+        .modals {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modals-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+        }
+
+        .blink {
+            animation: blinker 4s linear infinite;
+        }
+
+        @keyframes blinker {
+            100% {
+                opacity: 0;
+            }
+        }
+
+        #myText {
+            color: white;
+            transition: color 4s;
+        }
+
+        #myDiv {
+            border: 3px solid white;
+        }
+
+        #myDiv2 {
+            border: 3px solid white;
+        }
+
+        #myDiv3 {
+            border: 3px solid white;
+        }
+
+        #change {
+            border: 3px solid white;
+        }
+
+        #change2 {
+            border: 3px solid white;
+        }
+
+        #change3 {
+            border: 3px solid white;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: green;" onload="hitungPersen()">
+
+    <main>
+        <div class="container-fluid pl-3 " style="font-family: Pepetua">
+            <div class="pt-1" style="color: white; font-size: 40px;"> CASTING GRAVITY 22 </div>
+            <div style="color: white; font-size: 32px; margin-top: -20px;" id="part2"></div>
+            <div style="color: white; font-size: 25px; margin-top: -35px;"> PERFORMANCE : </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-3 offset-md-4  ">
+                <div class=" text-center" id="myText"
+                    style="font-size: 300px; color: white; font-weight:600; line-height: 1; font-family: Garamond">
+                    <span id="persen"> </span>
+                </div>
+            </div>
+            <div class="col-md-3 offset-sm-0  ">
+                <div class="text"
+                    style=" margin-left: 17px; font-size: 110px; color: white; font-weight:lighter; margin-top: 70px; ">
+                    %
+                </div>
+            </div>
+        </div>
+
+        <div class=" container-fluid bg-white pr-5 " style=" height: 80px; width: 100vw;">
+            <div class="row">
+                <div class="col-md-4 text-center " style="font-size: 20px;"> TOTAL
+                    <p class="py-0" style="font-weight: bold ; font-size: 45px; line-height: 1;">
+                        <span class="cuk" id="counter"></span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-center " style="font-size: 20px;"> TARGET
+                    <p style="font-weight: bold ; font-size: 45px; line-height: 1;">
+                        <span id="result"></span>
+                    </p>
+                </div>
+                <div class="col-md-2 offset-md-1 py-3 text-center text-white" style="background-color: green; ">
+                    <p style="font-weight: bold ; font-size: 30px ;">
+                        <span id="status"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-9 col-sm-3 text-center" style="font-weight: bold; color: white;">
+                <h3>AVAILABILITY</h3>
+            </div>
+            <div class="col col-sm-9">
+                <div class="progress" style="height: 35px; width: 99%;">
+                    <div class="progress-bar progress-bar-striped" id="myProgressBar" role="progressbar"
+                        style="width: fit-content;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">100
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 col-sm-3 text-center" style="font-weight: bold; color: white;">
+                <h3>QUALITY RATE</h3>
+            </div>
+            <div class="col col-sm-9">
+                <div class="progress" style="height: 35px; width: 99%;">
+                    <div class="progress-bar progress-bar-striped" id="myProgressBar2" role="progressbar"
+                        style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">100</div>
+                </div>
+            </div>
+            <div class="col-9 col-sm-3 text-center" style="font-weight: bold; color: white;">
+                <h3>SHIFT</h3>
+            </div>
+
+            <div class="col-3 col-sm-1 " style=" padding-left: 25px; height: 35px">
+                <div class="row text-white">
+                    <div style=" width: fit-content;" id="myDiv">1</div>
+                    <div style="width: fit-content;" id="myDiv2">2</div>
+                    <div style="width: fit-content;" id="myDiv3">3</div>
+
+                </div>
+            </div>
+
+            <div class="col-8 " style=" padding-left: 25px; height: 35px">
+                <div class="row text-white" style="padding-left: 300px;">
+                    <div class="px-5 py-1" style=" width: fit-content;" id="change">MAINTENANCE</div>
+                    <div class="px-5 py-1" style="width: fit-content;" id="change2">PRODUKSI</div>
+                    <div class="px-5 py-1" style="width: fit-content;" id="change3">ENGINEERING</div>
+                </div>
+            </div>
+
+
+
+
+            <div id="myModal" class="modals">
+                <div class="modals-content blink">
+                    <h2>Downtime Diteruskan ke bagian Produksi</h2>
+                    <p>Produksi diharapkan segera melakukan pengecekan</p>
+                    <button onclick="hideModal()">Tutup Modal</button>
+                </div>
+            </div>
+            <div id="myModal2" class="modals">
+                <div class="modals-content blink">
+                    <h2>Downtime Diteruskan ke bagian Engineering</h2>
+                    <p>Engineering diharapkan segera melakukan pengecekan</p>
+                    <button onclick="hideModal2()">Tutup Modal</button>
+                </div>
+            </div>
+            <div id="myModal3" class="modals">
+                <div class="modals-content blink">
+                    <h2>Downtime Diteruskan ke bagian Maintenance</h2>
+                    <p>Maintenance diharapkan segera melakukan pengecekan</p>
+                    <button onclick="hideModal3()">Tutup Modal</button>
+                </div>
+            </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script type="text/JavaScript" src="admin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <script src="login.js"></script>
+    <script src="notifmodal.js"></script>
+
+    <script>
+        function ubahWarna() {
+            var div = document.getElementById("myDiv");
+            div.style.color = "orange";
+            div.style.borderColor = "orange";
+        }
+        function ubahWarna2() {
+            var div2 = document.getElementById("myDiv2");
+            div2.style.color = "orange";
+            div2.style.borderColor = "orange";
+        }
+        function ubahWarna3() {
+            var div3 = document.getElementById("myDiv3");
+            div3.style.color = "orange";
+            div3.style.borderColor = "orange";
+        }
+    </script>
+
+    <script>
+        function change() {
+            var div = document.getElementById("change");
+            div.style.color = "red";
+            div.style.borderColor = "red";
+        }
+        function change2() {
+            var div2 = document.getElementById("change2");
+            div2.style.color = "red";
+            div2.style.borderColor = "red";
+        }
+        function change3() {
+            var div3 = document.getElementById("change3");
+            div3.style.color = "red";
+            div3.style.borderColor = "red";
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "shift.php", // Ganti dengan URL skrip server Anda
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (response == 1) {
+                        ubahWarna();
+                    } else if (response == 2) {
+                        ubahWarna2();
+                    } else {
+                        ubahWarna3();
+                    }
+                },
+                error: function (xhr, data, error) {
+                    // Penanganan kesalahan jika terjadi
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+
+
+
+    <!-- // ini  buat notif tv tapi pake button modal saat diclick // -->
+
+    <!-- <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'sendnotiftv.php',  // URL ke file PHP yang akan menghasilkan data
+                type: 'GET',      // Metode permintaan (GET, POST, dll.)
+                success: function (response) {
+                    if (response == 1) {
+                        showModal();
+                    } else {
+                        show2();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    </script> -->
+
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "gabungdtmaint.php",
+                dataType: "json",
+                success: function (total) {
+                    if (total > 1) {
+                        showModal3();
+                        change();
+                    }
+                },
+            });
+            $.ajax({
+                url: "gabungdtprod.php",
+                dataType: "json",
+                success: function (total) {
+                    if (total > 1) {
+                        showModal();
+                        change2();
+
+                    }
+                },
+            });
+            $.ajax({
+                url: "gabungdteng.php",
+                dataType: "json",
+                success: function (total) {
+                    if (total > 1) {
+                        showModal2();
+                        change3();
+
+                    }
+                },
+            });
+        });
+    </script>
+
+
+    <script>
+        const textElement = document.getElementById('myText');
+
+        function changeColor() {
+            if (textElement.style.color === 'white') {
+                textElement.style.color = '#b36a27';
+            } else {
+                textElement.style.color = 'white';
+            }
+        }
+        setInterval(changeColor, 3000);
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            setInterval(function () {
+                $.ajax({
+                    url: "get_user.php",
+                    dataType: "json",
+                    success: function (nilai) {
+                        $("#counter").html(nilai);
+                    },
+                });
+                $.ajax({
+                    url: "status.php",
+                    success: function (word) {
+                        if (word = 0) {
+                            running();
+                        } else {
+                            stopped();
+
+                        }
+                    },
+                });
+            }, 1000);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "totaldt.php",
+                dataType: "json",
+                success: function (hasil) {
+                    if (hasil > 1) {
+                        downtime();
+                    }
+                },
+            });
+
+        });
+    </script>
+
+    <script>
+        var isRunning = false;
+
+        function stopped() {
+            if (isRunning) {
+                return; // Fungsi kedua tidak akan dijalankan jika fungsi pertama sedang berjalan
+            }
+            isRunning = true;
+
+            var myVariable = "STOPPED";
+            var resultElement = document.getElementById("status");
+            resultElement.innerHTML = myVariable;
+
+            isRunning = false;
+
+        }
+        function running() {
+            if (isRunning) {
+                return; // Fungsi kedua tidak akan dijalankan jika fungsi pertama sedang berjalan
+            }
+            isRunning = true;
+
+            var myVariable = "RUNNING";
+            var resultElement = document.getElementById("status");
+            resultElement.innerHTML = myVariable;
+
+            isRunning = false;
+
+        }
+        function downtime() {
+            if (isRunning) {
+                return; // Fungsi kedua tidak akan dijalankan jika fungsi pertama sedang berjalan
+            }
+            isRunning = true;
+
+            var myVariable = "DOWNTIME";
+            var resultElement = document.getElementById("status");
+            resultElement.innerHTML = myVariable;
+
+            isRunning = false;
+
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            setInterval(function () {
+                $.ajax({
+                    url: "persen.php",
+                    dataType: "json",
+                    success: function (format_total) {
+                        $("#persen").html(format_total);
+                    },
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "tes.php",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var html = "";
+                    var html2 = "";
+                    var html3 = "";
+
+                    // Looping data yang diterima dalam format JSON
+                    $.each(data, function (index, value) {
+                        html += "<p>" + value.targetpart + "</p>";
+                        html2 += "<p>" + value.part + "</p>";
+                        html3 += "<p>" + value.shift + "</p>";
+
+                    });
+                    // Tampilkan data di dalam elemen HTML yang sudah disiapkan
+                    $("#result").html(html);
+                    $("#part2").html(html2);
+                    $("#shift").html(html3);
+
+                }
+            });
+        });
+    </script>
+    <script>
+        // Tetapkan nilai progress awal sebagai 0
+        var progressValue = 0;
+
+        // Tetapkan waktu interval (dalam milidetik) untuk memperbarui nilai progress bar
+        var intervalTime = 500; // 500 milidetik = 0,5 detik
+
+        // Gunakan setInterval() untuk memperbarui nilai progress bar
+        setInterval(function () {
+            // Tambahkan nilai progress dengan sebuah angka acak antara 1 dan 10
+            progressValue += Math.floor(Math.random() * 10) + 1;
+
+            // Batasi nilai progress maksimum menjadi 100
+            if (progressValue > 100) {
+                progressValue = 100;
+            }
+
+            // Perbarui progress bar dengan nilai baru
+            $('#myProgressBar').css('width', progressValue + '%').attr('aria-valuenow', progressValue);
+            $('#myProgressBar2').css('width', progressValue + '%').attr('aria-valuenow', progressValue);
+
+        }, intervalTime);
+    </script>
+</body>
+
+</html>
